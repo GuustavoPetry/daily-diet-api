@@ -1,7 +1,8 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
-import { knex } from "../database";
+import { knex } from "../database.js";
 import { randomUUID } from "node:crypto";
+import { genSalt, hash } from "bcrypt-ts";
 
 export async function userRoutes(app: FastifyInstance) {
     app.post("/", async (request, reply) => {
@@ -13,21 +14,24 @@ export async function userRoutes(app: FastifyInstance) {
 
         const { name, email, password } = createUserBodySchema.parse(request.body);
 
+        const bcryptSaltPassword = await genSalt(10);
+        const bcryptResultPassword = await hash(password, bcryptSaltPassword);
+
         const id = randomUUID();
 
         await knex("users").insert({
             id,
             name,
             email,
-            password
+            password: bcryptResultPassword
         });
 
         return reply.status(201).send(String(id));
     });
 
     app.get("/", async () => {
-        const user = await knex("users").select();
+        const users = await knex("users").select();
 
-        return { user };
+        return { users };
     });
 }
