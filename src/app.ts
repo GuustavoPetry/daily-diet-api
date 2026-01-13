@@ -1,4 +1,4 @@
-import fastify, { FastifyReply, FastifyRequest } from "fastify";
+import fastify, { FastifyRequest } from "fastify";
 import fastifyJwt from "@fastify/jwt";
 import { userRoutes } from "./routes/user-routes.js";
 import { authRoutes } from "./routes/auth-routes.js";
@@ -11,7 +11,7 @@ app.register(fastifyJwt, {
 });
 
 app.decorate("authenticate", async (request: FastifyRequest) => {
-  await request.jwtVerify();
+    await request.jwtVerify();
 });
 
 app.register(authRoutes, {

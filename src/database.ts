@@ -1,5 +1,5 @@
-import { knex as setupKnex, Knex } from "knex";
-import { env } from "./env/index";
+import setupKnex, {type Knex} from "knex";
+import { env } from "./env/index.js";
 
 // Configuração para knex conectar ao banco de dados
 export const config: Knex.Config = {

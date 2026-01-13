@@ -26,10 +26,10 @@ export async function userRoutes(app: FastifyInstance) {
             password: bcryptResultPassword
         });
 
-        return reply.status(201).send(String(id));
+        return reply.status(201).send({result: true});
     });
 
-    app.get("/", async () => {
+    app.get("/", { preHandler: [app.authenticate] }, async () => {
         const users = await knex("users").select();
 
         return { users };

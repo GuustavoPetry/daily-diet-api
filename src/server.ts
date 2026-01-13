@@ -1,5 +1,5 @@
-import { env } from "./env/index";
-import { app } from "./app";
+import { env } from "./env/index.js";
+import { app } from "./app.js";
 
 app
     .listen({
