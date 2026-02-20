@@ -5,6 +5,7 @@ declare module "@fastify/jwt"{
         payload: unknown;
         user: {
             sub: string
+            email: string
         }
     }
 }

@@ -3,6 +3,7 @@ import fastifyJwt from "@fastify/jwt";
 import { userRoutes } from "./routes/user-routes.js";
 import { authRoutes } from "./routes/auth-routes.js";
 import { env } from "./env/index.js";
+import { dietRoutes } from "./routes/diet-routes.js";
 
 export const app = fastify();
 
@@ -18,6 +19,6 @@ app.register(authRoutes, {
     prefix: "auth"
 });
 
-app.register(userRoutes, {
-    prefix: "user"
-});
+app.register(userRoutes);
+
+app.register(dietRoutes);
