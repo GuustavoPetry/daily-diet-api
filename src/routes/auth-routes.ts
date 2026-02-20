@@ -13,20 +13,22 @@ export async function authRoutes(app: FastifyInstance) {
 
         // Fazer verificação se o usuário e senha estão corretos com bcrypt decode...
         const user = await knex<User>("users")
-        .select()
-        .where({
-            email,
-        })
-        .first();
-        
+            .select()
+            .where({
+                email,
+            })
+            .first();
+
+        const loginError = `Credenciais Inválidas`;
+
         if (!user) {
-            return reply.send({ erro: "Credenciais Inválidas" });
+            return reply.send({ loginError });
         };
-        
+
         const isValid = await compare(password, user.password);
 
         if (!isValid) {
-            return reply.send({ erro: "Credenciais Inválidas" });
+            return reply.send({ loginError });
         }
 
         const token = app.jwt.sign(
