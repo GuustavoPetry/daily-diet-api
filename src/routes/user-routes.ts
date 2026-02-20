@@ -5,7 +5,7 @@ import { randomUUID } from "node:crypto";
 import { genSalt, hash } from "bcrypt-ts";
 
 export async function userRoutes(app: FastifyInstance) {
-    app.post("/", async (request, reply) => {
+    app.post("/user.add", async (request, reply) => {
         const createUserBodySchema = z.object({
             name: z.string(),
             email: z.email(),
@@ -26,12 +26,24 @@ export async function userRoutes(app: FastifyInstance) {
             password: bcryptResultPassword
         });
 
-        return reply.status(201).send({result: true});
+        return reply.status(201).send({ result: true });
     });
 
-    app.get("/", { preHandler: [app.authenticate] }, async () => {
+    app.get("/user.list", { preHandler: [app.authenticate] }, async () => {
         const users = await knex("users").select();
 
         return { users };
+    });
+
+    app.get("/user.get", { preHandler: [app.authenticate] }, async (request, reply) => {
+        const { user } = request;
+
+        const result = await knex("users")
+            .select()
+            .where({ id: user.sub })
+            .first();
+
+        return reply.status(200).send({ result });
+
     });
 }
