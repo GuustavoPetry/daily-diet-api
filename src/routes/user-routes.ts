@@ -35,7 +35,25 @@ export async function userRoutes(app: FastifyInstance) {
         return { users };
     });
 
-    app.get("/user.get", { preHandler: [app.authenticate] }, async (request, reply) => {
+    app.post<{
+        Body: {
+            id: string
+        }
+    }>
+        ("/user.get", { preHandler: [app.authenticate] }, async (request) => {
+            const { id } = request.body;
+
+            console.log(id);
+
+            const user = await knex("users")
+                .select()
+                .where({ id });
+
+            return { user };
+        });
+
+
+    app.get("/user.current", { preHandler: [app.authenticate] }, async (request, reply) => {
         const { user } = request;
 
         const result = await knex("users")

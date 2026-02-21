@@ -5,7 +5,7 @@ import { authRoutes } from "./routes/auth-routes.js";
 import { env } from "./env/index.js";
 import { dietRoutes } from "./routes/diet-routes.js";
 
-export const app = fastify();
+export const app = fastify({ logger: true });
 
 app.register(fastifyJwt, {
     secret: env.JWT_SECRET
