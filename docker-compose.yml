@@ -1,0 +1,13 @@
+services:
+  daily-diet:
+    image: daily-diet:v6
+    container_name: daily-diet
+    volumes: 
+      - db:/var/lib/sqlite
+    ports:
+      - 3000:3333
+    env_file:
+      - .env
+    
+volumes:
+  db:
