@@ -1,6 +1,6 @@
 services:
   daily-diet:
-    image: daily-diet:v6
+    image: daily-diet:v11
     container_name: daily-diet
     volumes: 
       - db:/var/lib/sqlite
@@ -8,6 +8,7 @@ services:
       - 3000:3333
     env_file:
       - .env
+    command: npm run start:prod
     
 volumes:
   db:

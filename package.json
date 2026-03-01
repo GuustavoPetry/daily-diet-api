@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch ./src/server.ts",
     "knex": "tsx ./node_modules/knex/bin/cli.js",
-    "knex-p": "node ./node_modules/knex/bin/cli.js"
+    "knex:prod": "node ./node_modules/knex/bin/cli.js --knexfile build/knexfile.js",
+    "start:prod": "node ./node_modules/knex/bin/cli.js --knexfile build/knexfile.js migrate:latest && node build/src/server.js"
   },
   "keywords": [],
   "author": "",
