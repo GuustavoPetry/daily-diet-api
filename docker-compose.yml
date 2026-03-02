@@ -1,14 +1,28 @@
+version: '3.9'
+
 services:
   daily-diet:
     image: daily-diet:v11
     container_name: daily-diet
+    networks:
+      - network_swarm_public
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.daily-diet.rule=Host(`daily-diet.tiqtech.com.br`)"
+        - "traefik.http.routers.daily-diet.entrypoints=websecure"
+        - "traefik.http.routers.daily-diet.tls=true"
+        - "traefik.http.services.daily-diet.loadbalancer.server.port=3333"
     volumes: 
       - db:/var/lib/sqlite
-    ports:
-      - 3000:3333
     env_file:
       - .env
     command: npm run start:prod
+
+networks:
+  network_swarm_public:
+    external: true
     
 volumes:
   db:
